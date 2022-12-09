@@ -8,6 +8,11 @@ spring:
     url: jdbc:mysql://192.168.86.200:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
+  application:
+    name: product
+  cloud:
+    nacos:
+      server-addr: 192.168.86.200:8849
 
 mybatis-plus:
   configuration:
