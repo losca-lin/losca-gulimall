@@ -4,7 +4,7 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 192.168.86.200:8849
+        server-addr: 1.117.177.77:8849
         file-extension: yml
         prefix: gulimall
-        namespace: 23ab3dac-a50c-4423-bcf5-e3e60b1fa124
+        namespace: 977d9b68-2409-4f13-a578-e827e73a18b1
