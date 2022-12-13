@@ -5,6 +5,7 @@ import com.losca.common.utils.PageUtils;
 import com.losca.common.utils.R;
 import com.losca.gulimall.product.entity.CategoryEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,5 +20,7 @@ public interface CategoryService extends IService<CategoryEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     R listTree();
+
+    void removeMenuByIds(List<Long> catIds);
 }
 
