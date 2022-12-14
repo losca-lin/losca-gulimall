@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: other
+    active: other,routes
   cloud:
     nacos:
       config:
