@@ -5,12 +5,15 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
+import com.aliyun.oss.OSSClient;
 import com.losca.gulimall.product.entity.CategoryEntity;
 import com.losca.gulimall.product.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,15 @@ class GulimallProductApplicationTests {
 
     @Resource
     CategoryService categoryService;
+
+    @Resource
+    OSSClient ossClient;
+
+    @Test
+    void testOss() throws FileNotFoundException {
+        ossClient.putObject("losca-gulimall", "1.jpg", new FileInputStream("C:\\Users\\Administrator\\Desktop\\img\\1.jpg"));
+        ossClient.shutdown();
+    }
     @Test
     void contextLoads() {
         List<CategoryEntity> list = categoryService.list();

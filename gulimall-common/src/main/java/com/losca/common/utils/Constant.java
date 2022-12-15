@@ -8,9 +8,11 @@
 
 package com.losca.common.utils;
 
-import io.renren.common.validator.group.AliyunGroup;
-import io.renren.common.validator.group.QcloudGroup;
-import io.renren.common.validator.group.QiniuGroup;
+
+
+import com.losca.common.validator.group.AliyunGroup;
+import com.losca.common.validator.group.QcloudGroup;
+import com.losca.common.validator.group.QiniuGroup;
 
 import java.util.Optional;
 import java.util.stream.Stream;

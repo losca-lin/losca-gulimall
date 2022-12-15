@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: other
+  cloud:
+    nacos:
+      config:
+        server-addr: 1.117.177.77:8849
+        file-extension: yml
+        prefix: gulimall
+        namespace: d6d5f3aa-c5cf-451c-8180-f5d57b01f9be
