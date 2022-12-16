@@ -2,11 +2,17 @@ package com.losca.gulimall.product.controller;
 
 import com.losca.common.utils.PageUtils;
 import com.losca.common.utils.R;
+import com.losca.common.valid.AddGroup;
+import com.losca.common.valid.UpdateGroup;
+import com.losca.common.valid.UpdateStatusGroup;
 import com.losca.gulimall.product.entity.BrandEntity;
 import com.losca.gulimall.product.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -50,7 +56,7 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@RequestBody @Validated({AddGroup.class}) BrandEntity brand){
 		brandService.save(brand);
 
         return R.ok();
@@ -60,9 +66,14 @@ public class BrandController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody BrandEntity brand){
-		brandService.updateById(brand);
+    public R update(@RequestBody @Validated({UpdateGroup.class}) BrandEntity brand){
+        brandService.updateById(brand);
+        return R.ok();
+    }
 
+    @RequestMapping("/update/status")
+    public R updateStatus(@RequestBody @Validated({UpdateStatusGroup.class}) BrandEntity brand){
+        brandService.updateById(brand);
         return R.ok();
     }
 
