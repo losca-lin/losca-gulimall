@@ -1,7 +1,7 @@
 package com.losca.gulimall.coupon.dao;
 
-import com.losca.gulimall.coupon.entity.SpuBoundsEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.losca.gulimall.coupon.entity.SpuBoundsEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

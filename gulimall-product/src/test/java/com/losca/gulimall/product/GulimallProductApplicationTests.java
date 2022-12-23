@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SpringBootTest
 class GulimallProductApplicationTests {

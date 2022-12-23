@@ -4,7 +4,6 @@ import com.losca.common.utils.PageUtils;
 import com.losca.common.utils.R;
 import com.losca.gulimall.product.entity.CategoryEntity;
 import com.losca.gulimall.product.service.CategoryService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

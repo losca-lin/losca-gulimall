@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.List;
 

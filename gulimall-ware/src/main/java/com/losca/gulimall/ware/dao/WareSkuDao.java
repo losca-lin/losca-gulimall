@@ -1,7 +1,7 @@
 package com.losca.gulimall.ware.dao;
 
-import com.losca.gulimall.ware.entity.WareSkuEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.losca.gulimall.ware.entity.WareSkuEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -1,7 +1,7 @@
 package com.losca.gulimall.order.dao;
 
-import com.losca.gulimall.order.entity.OrderOperateHistoryEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.losca.gulimall.order.entity.OrderOperateHistoryEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

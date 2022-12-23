@@ -8,11 +8,9 @@ import com.losca.common.valid.UpdateStatusGroup;
 import com.losca.gulimall.product.entity.BrandEntity;
 import com.losca.gulimall.product.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Map;
 

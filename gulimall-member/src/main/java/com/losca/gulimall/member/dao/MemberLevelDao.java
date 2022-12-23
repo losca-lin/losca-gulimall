@@ -1,7 +1,7 @@
 package com.losca.gulimall.member.dao;
 
-import com.losca.gulimall.member.entity.MemberLevelEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.losca.gulimall.member.entity.MemberLevelEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

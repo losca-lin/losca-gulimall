@@ -1,16 +1,16 @@
 package com.losca.gulimall.member.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.losca.common.utils.PageUtils;
 import com.losca.common.utils.Query;
-
 import com.losca.gulimall.member.dao.MemberCollectSubjectDao;
 import com.losca.gulimall.member.entity.MemberCollectSubjectEntity;
 import com.losca.gulimall.member.service.MemberCollectSubjectService;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 
 @Service("memberCollectSubjectService")
