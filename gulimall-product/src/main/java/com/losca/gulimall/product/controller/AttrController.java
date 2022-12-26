@@ -110,7 +110,7 @@ public class AttrController {
     //@RequiresPermissions("product:attr:update")
     public R update(@RequestBody AttrVo attr){
 
-		//attrService.updateAttrById(attr);
+		attrService.updateAttrById(attr);
 
         return R.ok();
     }

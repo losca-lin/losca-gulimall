@@ -141,32 +141,32 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
         //查询分组信息
         AttrRespVo respVo = new AttrRespVo();
-        //BeanUtils.copyProperties(attrEntity,respVo);
-        //
-        ////判断是否是基本类型
-        //if (attrEntity.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()) {
-        //    //1、设置分组信息
-        //    AttrAttrgroupRelationEntity relationEntity = relationDao.selectOne
-        //            (new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
-        //    if (relationEntity != null) {
-        //        respVo.setAttrGroupId(relationEntity.getAttrGroupId());
-        //        //获取分组名称
-        //        AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(relationEntity.getAttrGroupId());
-        //        if (attrGroupEntity != null) {
-        //            respVo.setGroupName(attrGroupEntity.getAttrGroupName());
-        //        }
-        //    }
-        //}
-        //
-        ////2、设置分类信息
-        //Long catelogId = attrEntity.getCatelogId();
-        //Long[] catelogPath = categoryService.findCatelogPath(catelogId);
-        //
-        //respVo.setCatelogPath(catelogPath);
-        //CategoryEntity categoryEntity = categoryDao.selectById(catelogId);
-        //if (categoryEntity != null) {
-        //    respVo.setCatelogName(categoryEntity.getName());
-        //}
+        BeanUtils.copyProperties(attrEntity,respVo);
+
+        //判断是否是基本类型
+        if (attrEntity.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()) {
+            //1、设置分组信息
+            AttrAttrgroupRelationEntity relationEntity = relationDao.selectOne
+                    (new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
+            if (relationEntity != null) {
+                respVo.setAttrGroupId(relationEntity.getAttrGroupId());
+                //获取分组名称
+                AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(relationEntity.getAttrGroupId());
+                if (attrGroupEntity != null) {
+                    respVo.setGroupName(attrGroupEntity.getAttrGroupName());
+                }
+            }
+        }
+
+        //2、设置分类信息
+        Long catelogId = attrEntity.getCatelogId();
+        Long[] catelogPath = categoryService.findCatelogPath(catelogId);
+
+        respVo.setCatelogPath(catelogPath);
+        CategoryEntity categoryEntity = categoryDao.selectById(catelogId);
+        if (categoryEntity != null) {
+            respVo.setCatelogName(categoryEntity.getName());
+        }
 
         return respVo;
     }
@@ -213,7 +213,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         List<Long> attrIds = entities.stream().map((attr) -> {
             return attr.getAttrId();
         }).collect(Collectors.toList());
-
         //根据attrIds查找所有的属性信息
         //Collection<AttrEntity> attrEntities = this.listByIds(attrIds);
 
@@ -237,7 +236,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             return relationEntity;
         }).collect(Collectors.toList());
 
-        //relationDao.deleteBatchRelation(entities);
+        relationDao.deleteBatchRelation(entities);
     }
 
     /**
