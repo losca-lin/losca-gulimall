@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+import static com.baomidou.mybatisplus.annotation.IdType.INPUT;
+
 /**
  * spu信息介绍
  * 
@@ -21,7 +23,7 @@ public class SpuInfoDescEntity implements Serializable {
 	/**
 	 * 商品id
 	 */
-	@TableId
+	@TableId(type = INPUT)
 	private Long spuId;
 	/**
 	 * 商品介绍

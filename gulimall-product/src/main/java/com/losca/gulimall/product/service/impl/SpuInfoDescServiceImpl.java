@@ -17,6 +17,11 @@ import java.util.Map;
 public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoDescEntity> implements SpuInfoDescService {
 
     @Override
+    public void saveSpuInfoDesc(SpuInfoDescEntity spuInfoDescEntity) {
+        this.baseMapper.insert(spuInfoDescEntity);
+    }
+
+    @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SpuInfoDescEntity> page = this.page(
                 new Query<SpuInfoDescEntity>().getPage(params),
