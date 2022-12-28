@@ -4,6 +4,7 @@ import com.losca.common.utils.PageUtils;
 import com.losca.common.utils.R;
 import com.losca.gulimall.ware.entity.PurchaseEntity;
 import com.losca.gulimall.ware.service.PurchaseService;
+import com.losca.gulimall.ware.vo.MergeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,27 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
+    @RequestMapping("/unreceive/list")
+    //@RequiresPermissions("ware:purchase:list")
+    public R unreceivelist(@RequestParam Map<String, Object> params){
+        PageUtils page = purchaseService.queryPageUnreceivelist(params);
+
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 合并整单
+     * @param mergeVo
+     * @return
+     */
+    ///ware/purchase/merge
+    @PostMapping(value = "/merge")
+    public R merge(@RequestBody MergeVo mergeVo) {
+
+        purchaseService.mergePurchase(mergeVo);
+
+        return R.ok();
+    }
     /**
      * 列表
      */

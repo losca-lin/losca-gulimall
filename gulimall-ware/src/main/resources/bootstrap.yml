@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: datasource,mybatisPlus,other
+  cloud:
+    nacos:
+      config:
+        server-addr: 1.117.177.77:8849
+        file-extension: yml
+        prefix: gulimall
+        namespace: dcde3194-7f40-43ec-8273-f7fef282c7c8

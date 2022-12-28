@@ -1,15 +1,21 @@
-server:
-  port: 12000
+#server:
+#  port: 12000
+#
+#spring:
+#  datasource:
+#    #MySQL配置
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://1.117.177.77:3306/gulimall_wms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: root
+#  cloud:
+#    nacos:
+#      server-addr: 1.117.177.77:8849
+#mybatis-plus:
+#  global-config:
+#    db-config:
+#      id-type: auto
 
 spring:
-  datasource:
-    #MySQL配置
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://1.117.177.77:3306/gulimall_wms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-
-mybatis-plus:
-  global-config:
-    db-config:
-      id-type: auto
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss

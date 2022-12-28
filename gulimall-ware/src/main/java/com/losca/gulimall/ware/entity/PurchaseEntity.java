@@ -1,11 +1,14 @@
 package com.losca.gulimall.ware.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -56,10 +59,12 @@ public class PurchaseEntity implements Serializable {
 	/**
 	 * 创建日期
 	 */
-	private Date createTime;
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
 	/**
 	 * 更新日期
 	 */
-	private Date updateTime;
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private LocalDateTime updateTime;
 
 }
