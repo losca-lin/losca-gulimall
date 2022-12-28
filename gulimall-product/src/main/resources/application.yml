@@ -5,3 +5,6 @@ spring:
       secret-key: lrQ55pTPC9c0zRRixyOusNNzg1d0e9
       oss:
         endpoint: oss-cn-shanghai.aliyuncs.com
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
