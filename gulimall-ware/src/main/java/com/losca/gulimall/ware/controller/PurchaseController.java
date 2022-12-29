@@ -5,10 +5,12 @@ import com.losca.common.utils.R;
 import com.losca.gulimall.ware.entity.PurchaseEntity;
 import com.losca.gulimall.ware.service.PurchaseService;
 import com.losca.gulimall.ware.vo.MergeVo;
+import com.losca.gulimall.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,12 +28,33 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
+    @PostMapping(value = "/received")
+    public R received(@RequestBody List<Long> ids) {
+
+        purchaseService.received(ids);
+
+        return R.ok();
+    }
+
     @RequestMapping("/unreceive/list")
     //@RequiresPermissions("ware:purchase:list")
     public R unreceivelist(@RequestParam Map<String, Object> params){
         PageUtils page = purchaseService.queryPageUnreceivelist(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 完成采购单
+     * @param doneVo
+     * @return
+     */
+    @PostMapping(value = "/done")
+    public R finish(@RequestBody PurchaseDoneVo doneVo) {
+
+        purchaseService.done(doneVo);
+
+        return R.ok();
     }
 
     /**
