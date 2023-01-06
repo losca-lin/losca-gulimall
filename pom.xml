@@ -20,6 +20,7 @@
         <module>gulimall-common</module>
         <module>gulimall-gateway</module>
         <module>gulimall-third-party</module>
+        <module>gulimall-search</module>
     </modules>
 
     <properties>
@@ -28,6 +29,7 @@
         <spring-boot-dependencies-version>2.2.5.RELEASE</spring-boot-dependencies-version>
         <mysql.version>8.0.31</mysql.version>
         <lombok.version>1.18.24</lombok.version>
+        <es.version>7.4.2</es.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -63,6 +65,11 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${es.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

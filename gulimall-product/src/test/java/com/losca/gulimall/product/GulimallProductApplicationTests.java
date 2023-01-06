@@ -24,7 +24,6 @@ class GulimallProductApplicationTests {
 
     @Resource
     OSSClient ossClient;
-
     @Test
     void testOss() throws FileNotFoundException {
         ossClient.putObject("losca-gulimall", "1.jpg", new FileInputStream("C:\\Users\\Administrator\\Desktop\\img\\1.jpg"));
