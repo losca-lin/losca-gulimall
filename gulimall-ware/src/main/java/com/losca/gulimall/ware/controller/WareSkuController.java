@@ -1,5 +1,6 @@
 package com.losca.gulimall.ware.controller;
 
+import com.losca.common.to.SkuHasStockVo;
 import com.losca.common.utils.PageUtils;
 import com.losca.common.utils.R;
 import com.losca.gulimall.ware.entity.WareSkuEntity;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,6 +36,19 @@ public class WareSkuController {
         PageUtils page = wareSkuService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 查询sku是否有库存
+     * @return
+     */
+    @PostMapping(value = "/hasStock")
+    public R getSkuHasStock(@RequestBody List<Long> skuIds) {
+
+        //skuId stock
+        List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
+
+        return R.ok().setData(vos);
     }
 
 

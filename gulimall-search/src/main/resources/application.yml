@@ -1,2 +1,10 @@
 server:
   port: 7000
+
+es:
+  ipaddr: http://1.117.177.77:9200
+
+spring:
+  cloud:
+    nacos:
+      server-addr:
