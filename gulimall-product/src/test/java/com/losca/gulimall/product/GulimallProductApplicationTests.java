@@ -24,11 +24,13 @@ class GulimallProductApplicationTests {
 
     @Resource
     OSSClient ossClient;
+
     @Test
     void testOss() throws FileNotFoundException {
         ossClient.putObject("losca-gulimall", "1.jpg", new FileInputStream("C:\\Users\\Administrator\\Desktop\\img\\1.jpg"));
         ossClient.shutdown();
     }
+
     @Test
     void contextLoads() {
         List<CategoryEntity> list = categoryService.list();
@@ -62,9 +64,52 @@ class GulimallProductApplicationTests {
                     tree.putExtra("extraField", 666);
                     tree.putExtra("other", new Object());
                 });
-        treeNodes.forEach(item->{
+        treeNodes.forEach(item -> {
             System.out.println(item);
         });
+    }
+
+    static class Demo {
+        public synchronized static void demo() {
+            while (true) {
+                System.out.println(Thread.currentThread().getName());
+            }
+        }
+
+        /**
+         * 测试this锁住的是对象实例还是锁住类
+         * 锁住对象实例的话两个不一样的实例均能输出
+         */
+        public void demo2(){
+            synchronized (this){
+                while (true){
+                    System.out.println(Thread.currentThread().getName());
+                }
+            }
+        }
+    }
+
+    class MyThread extends Thread{
+        private Demo demo;
+
+        public MyThread(Demo demo) {
+            this.demo = demo;
+        }
+
+        @Override
+        public void run() {
+            demo.demo2();
+        }
+    }
+
+    @Test
+    void testThread() {
+        Demo demo1 = new Demo();
+        Demo demo2 = new Demo();
+        Thread thread1 = new MyThread(demo1);
+        Thread thread2 = new MyThread(demo1);
+        thread1.start();
+        thread2.start();
     }
 
 }

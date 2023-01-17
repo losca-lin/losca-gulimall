@@ -1,5 +1,7 @@
 package com.losca.gulimall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,17 +12,21 @@ import com.losca.gulimall.product.dao.CategoryDao;
 import com.losca.gulimall.product.entity.CategoryEntity;
 import com.losca.gulimall.product.service.CategoryService;
 import com.losca.gulimall.product.vo.Catelog2Vo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
     @Override
     public R listTree() {
@@ -63,15 +69,110 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return this.list(new QueryWrapper<CategoryEntity>().eq("parent_cid", "0"));
     }
 
+    /**
+     * 测试分布式锁 核心使用redis的setnx指令 实际生产不推荐
+     *
+     * @return
+     */
     @Override
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
+        //加锁
+        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", Thread.currentThread().getName(), 30, TimeUnit.SECONDS);
+        //获取到锁，进行业务操作,为获取到锁进行重试
+        if (lock) {
+            //执行完业务逻辑后得进行释放锁的操作 不能删除其他人的锁
+            Map<String, List<Catelog2Vo>> result = getListMap();
+            //String s = stringRedisTemplate.opsForValue().get("lock");
+            //if (Thread.currentThread().getName().equals(s)){
+            //    stringRedisTemplate.delete("lock");
+            //}
+            //获取锁和删除锁应该是一个原子操作
+            String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+            stringRedisTemplate.execute(new DefaultRedisScript<>(script,Long.class), Arrays.asList("lock"), Thread.currentThread().getName());
+            return result;
+        } else {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+
+            }
+            return getCatalogJson();
+        }
+
+    }
+
+    private Map<String, List<Catelog2Vo>> getListMap() {
+        //缓存没有查询数据库,返回数据
+        if (stringRedisTemplate.opsForValue().get("catalogJson") == null) {
+            System.out.println("查询了数据库");
+            Map<String, List<Catelog2Vo>> parentCid = getStringListMap();
+            stringRedisTemplate.opsForValue().set("catalogJson", JSON.toJSONString(parentCid), 1, TimeUnit.DAYS);
+            return parentCid;
+        }
+        String catalogJson = stringRedisTemplate.opsForValue().get("catalogJson");
+        Map<String, List<Catelog2Vo>> result = JSON.parseObject(catalogJson, new TypeReference<Map<String, List<Catelog2Vo>>>() {
+        });
+        System.out.println("缓存命中了");
+        return result;
+    }
+
+    /**
+     * 效果和getCatalogJsonWithLocal一样，锁的都是当前对象实例，由于springboot对象组件都是单例的，对于单体引用来说可以锁住
+     *
+     * @return
+     */
+    @Override
+    public synchronized Map<String, List<Catelog2Vo>> getCatalogJsonWithLocal2() {
+        //缓存没有查询数据库,返回数据
+        if (stringRedisTemplate.opsForValue().get("catalogJson") == null) {
+            System.out.println("查询了数据库");
+            Map<String, List<Catelog2Vo>> parentCid = getStringListMap();
+            stringRedisTemplate.opsForValue().set("catalogJson", JSON.toJSONString(parentCid), 1, TimeUnit.DAYS);
+            return parentCid;
+        }
+        String catalogJson = stringRedisTemplate.opsForValue().get("catalogJson");
+        Map<String, List<Catelog2Vo>> result = JSON.parseObject(catalogJson, new TypeReference<Map<String, List<Catelog2Vo>>>() {
+        });
+        System.out.println("缓存命中了");
+        return result;
+    }
+
+    /**
+     * 从数据库查询并封装数据::本地锁
+     * 缓存穿透：查询了缓存没有的数据，全去查询数据库，数据库也无此记录  缓存增加空结果，设置短期的过期时间
+     * 缓存雪崩：缓存到同一时间全部失效，涌入大量请求查询数据库，数据库压力过重雪崩   缓存时间设置随机值，防止缓存集体失效
+     * 缓存击穿：热点数据缓存失效，请求全部打到数据库    热点数据设置永不过期，加锁
+     *
+     * @return
+     */
+    @Override
+    public Map<String, List<Catelog2Vo>> getCatalogJsonWithLocal() {
+        //this 对象是service,在springboot中所有的组件都是单例的，可以锁住 锁的是对象实例
+        synchronized (this) {
+            //缓存没有查询数据库,返回数据
+            if (stringRedisTemplate.opsForValue().get("catalogJson") == null) {
+                System.out.println("查询了数据库");
+                Map<String, List<Catelog2Vo>> parentCid = getStringListMap();
+                stringRedisTemplate.opsForValue().set("catalogJson", JSON.toJSONString(parentCid), 1, TimeUnit.DAYS);
+                return parentCid;
+            }
+            String catalogJson = stringRedisTemplate.opsForValue().get("catalogJson");
+            Map<String, List<Catelog2Vo>> result = JSON.parseObject(catalogJson, new TypeReference<Map<String, List<Catelog2Vo>>>() {
+            });
+            System.out.println("缓存命中了");
+            return result;
+
+        }
+
+
+    }
+
+    private Map<String, List<Catelog2Vo>> getStringListMap() {
         //将数据库的多次查询变为一次
         List<CategoryEntity> selectList = this.list();
-
         //1、查出所有分类
         //1、1）查出所有一级分类
         List<CategoryEntity> level1Categorys = getParent_cid(selectList, 0L);
-
         //封装数据
         Map<String, List<Catelog2Vo>> parentCid = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
             //1、每一个的一级分类,查到这个一级分类的二级分类
@@ -102,7 +203,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
             return catelog2Vos;
         }));
-
         return parentCid;
     }
 
@@ -140,6 +240,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         }).collect(Collectors.toList());
         return children;
     }
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

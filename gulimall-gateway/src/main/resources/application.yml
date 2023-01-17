@@ -1,16 +1,16 @@
 spring:
   cloud:
     gateway:
-#      discovery:
-#        locator:
-#          enabled: true
-#          lower-case-service-id: true
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
-#            allowedOrigins: "*"
-#            allowed-methods: "*"
-#            allowed-headers: "*"
+      #      discovery:
+      #        locator:
+      #          enabled: true
+      #          lower-case-service-id: true
+      #      globalcors:
+      #        cors-configurations:
+      #          '[/**]':
+      #            allowedOrigins: "*"
+      #            allowed-methods: "*"
+      #            allowed-headers: "*"
       routes:
         - id: product_route
           uri: lb://product
@@ -18,6 +18,10 @@ spring:
             - RewritePath=/api/product/(?<segment>/?.*), /product/$\{segment}
           predicates:
             - Path=/api/product/**
+        - id: gulimall_host_route
+          uri: lb://product
+          predicates:
+            - Host=**.mall.com
         - id: admin_route
           uri: lb://renren-fast
           filters:

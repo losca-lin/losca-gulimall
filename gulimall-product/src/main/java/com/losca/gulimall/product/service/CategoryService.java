@@ -18,6 +18,11 @@ import java.util.Map;
  */
 public interface CategoryService extends IService<CategoryEntity> {
 
+
+    Map<String, List<Catelog2Vo>> getCatalogJsonWithLocal2();
+
+    Map<String, List<Catelog2Vo>> getCatalogJsonWithLocal();
+
     PageUtils queryPage(Map<String, Object> params);
 
     R listTree();

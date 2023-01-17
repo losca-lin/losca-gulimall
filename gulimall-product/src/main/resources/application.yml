@@ -11,3 +11,15 @@ spring:
 
   thymeleaf:
     cache: false
+
+  redis:
+    host: 192.168.175.201
+    port: 6379
+    database: 1
+  cache:
+    type: redis
+logging:
+  level:
+    com.losca.gulimall.product: debug
+server:
+  port: 11000
