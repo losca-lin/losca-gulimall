@@ -1,6 +1,5 @@
 package com.losca.gulimall.product.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,7 +9,6 @@ import com.losca.gulimall.product.dao.BrandDao;
 import com.losca.gulimall.product.dao.CategoryBrandRelationDao;
 import com.losca.gulimall.product.entity.BrandEntity;
 import com.losca.gulimall.product.entity.CategoryBrandRelationEntity;
-import com.losca.gulimall.product.service.BrandService;
 import com.losca.gulimall.product.service.CategoryBrandRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +46,11 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
             return brand;
         }).collect(Collectors.toList());
         return collect;
+    }
+
+    @Override
+    public void updateCategory(Long catId, String name) {
+        this.baseMapper.updateCategory(catId,name);
     }
 
 }

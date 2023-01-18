@@ -31,8 +31,12 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     Long[] findCatelogPath(Long catelogId);
 
-    List<CategoryEntity> getLevel1Categorys();
+    List<CategoryEntity> getLevel1Categories();
 
     Map<String, List<Catelog2Vo>> getCatalogJson();
+
+    Map<String, List<Catelog2Vo>> getCatalogJsonWithRedisson();
+
+    void updateCascade(CategoryEntity category);
 }
 

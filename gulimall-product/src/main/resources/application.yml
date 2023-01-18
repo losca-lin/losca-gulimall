@@ -18,6 +18,12 @@ spring:
     database: 1
   cache:
     type: redis
+    redis:
+#      过期时间为1小时
+      time-to-live: 3600000
+      cache-null-values: true
+      use-key-prefix: true
+#      key-prefix: cache_
 logging:
   level:
     com.losca.gulimall.product: debug
