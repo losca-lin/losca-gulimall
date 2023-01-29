@@ -10,6 +10,7 @@ import com.losca.gulimall.product.entity.BrandEntity;
 import com.losca.gulimall.product.service.BrandService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,6 +25,11 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<BrandEntity> getBrandsByIds(List<Long> brandIds) {
+        return  baseMapper.selectList(new QueryWrapper<BrandEntity>().in("brand_id",brandIds));
     }
 
 }
