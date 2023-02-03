@@ -18,10 +18,18 @@ spring:
             - RewritePath=/api/product/(?<segment>/?.*), /product/$\{segment}
           predicates:
             - Path=/api/product/**
+
+        - id: gulimall_auth_route
+          uri: lb://auth
+          predicates:
+            - Host=auth.mall.com
+
+
         - id: gulimall_host_route
           uri: lb://product
           predicates:
             - Host=**.mall.com
+
         - id: admin_route
           uri: lb://renren-fast
           filters:

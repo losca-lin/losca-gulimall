@@ -71,7 +71,11 @@ server:
             - RewritePath=/api/(?<segment>/?.*), /renren-fast/$\{segment}
           predicates:
             - Path=/api/**
-
+mall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10
 
 
 

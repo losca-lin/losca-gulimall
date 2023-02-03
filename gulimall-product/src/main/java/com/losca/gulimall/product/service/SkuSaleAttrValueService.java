@@ -3,7 +3,9 @@ package com.losca.gulimall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.losca.common.utils.PageUtils;
 import com.losca.gulimall.product.entity.SkuSaleAttrValueEntity;
+import com.losca.gulimall.product.vo.SkuItemSaleAttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,7 @@ import java.util.Map;
 public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValueEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<SkuItemSaleAttrVo> getSaleAttrBySpuId(Long spuId);
 }
 
